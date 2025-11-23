@@ -19,64 +19,74 @@ Developed by: K L RAVEENDRANATH
 RegisterNumber: 212224060212 
 */
 
-import java.util.Scanner;
+import java.util.*;
 
-class Node {
-    int data;
-    Node next;
-    Node(int data) {
-        this.data = data;
-        this.next = null;
+class ListNode {
+    int val;
+    ListNode next;
+
+    ListNode(int val) {
+        this.val = val;
     }
 }
 
-public class RemoveValueLinkedList {
-    static Node removeElements(Node head, int val) {
-        while (head != null && head.data == val) {
-            head = head.next;
-        }
-        Node current = head;
-        while (current != null && current.next != null) {
-            if (current.next.data == val) {
-                current.next = current.next.next;
+class Solution {
+    public ListNode removeElements(ListNode head, int val) {
+        ListNode dummy = new ListNode(0);
+        dummy.next = head;
+        ListNode prev = dummy, curr = head;
+
+        while (curr != null) {
+            if (curr.val == val) {
+                prev.next = curr.next; 
             } else {
-                current = current.next;
+                prev = curr; 
             }
+            curr = curr.next; 
+        }
+
+        return dummy.next; 
+    }
+}
+
+public class Main {
+
+    public static ListNode buildList(int[] arr) {
+        if (arr.length == 0) return null;
+        ListNode head = new ListNode(arr[0]);
+        ListNode current = head;
+        for (int i = 1; i < arr.length; i++) {
+            current.next = new ListNode(arr[i]);
+            current = current.next;
         }
         return head;
     }
 
-    static void display(Node head) {
-        Node temp = head;
-        while (temp != null) {
-            System.out.print(temp.data + " ");
-            temp = temp.next;
+    public static String listToString(ListNode head) {
+        List<Integer> result = new ArrayList<>();
+        while (head != null) {
+            result.add(head.val);
+            head = head.next;
         }
-        System.out.println();
+        return result.toString(); 
     }
 
     public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        Node head = null, tail = null;
-        System.out.print("Enter number of elements: ");
-        int n = sc.nextInt();
-        System.out.println("Enter elements:");
-        for (int i = 0; i < n; i++) {
-            int val = sc.nextInt();
-            Node newNode = new Node(val);
-            if (head == null) {
-                head = tail = newNode;
-            } else {
-                tail.next = newNode;
-                tail = newNode;
-            }
-        }
-        System.out.print("Enter value to remove: ");
-        int value = sc.nextInt();
-        head = removeElements(head, value);
-        System.out.println("Linked list after removal:");
-        display(head);
-        sc.close();
+        Scanner scanner = new Scanner(System.in);
+
+        String input = scanner.nextLine().replaceAll("\\s", "");
+        int[] nums = Arrays.stream(input.split(","))
+                           .mapToInt(Integer::parseInt)
+                           .toArray();
+
+
+        int val = scanner.nextInt();
+        ListNode head = buildList(nums);
+        Solution solution = new Solution();
+        ListNode updated = solution.removeElements(head, val);
+        System.out.println(listToString(updated));
+
+        scanner.close();
     }
 }
 ```
