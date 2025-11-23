@@ -22,31 +22,22 @@ Developed by:
 RegisterNumber:  
 */
 
-
 import java.util.Scanner;
-
-class Node {
-    int data;
-    Node next;
-    Node(int data) {
-        this.data = data;
-        this.next = null;
-    }
-}
-
-public class RightRotateLinkedList {
-    static Node rotateRight(Node head, int k) {
-        if (head == null || k == 0) return head;
-        Node temp = head;
+public class RotateLinkedList {
+    public static Node rotate(Node head, int k) {
+        if (head == null || head.next == null || k == 0) {
+            return head;
+        }
+        Node current = head;
         int length = 1;
-        while (temp.next != null) {
-            temp = temp.next;
+        while (current.next != null) {
+            current = current.next;
             length++;
         }
-        temp.next = head;
+        current.next = head;
         k = k % length;
         int stepsToNewHead = length - k;
-        Node newTail = temp;
+        Node newTail = current;
         while (stepsToNewHead-- > 0) {
             newTail = newTail.next;
         }
@@ -54,25 +45,21 @@ public class RightRotateLinkedList {
         newTail.next = null;
         return newHead;
     }
-
-    static void display(Node head) {
-        Node temp = head;
-        while (temp != null) {
-            System.out.print(temp.data + " ");
-            temp = temp.next;
+    public static void display(Node head) {
+        Node current = head;
+        System.out.print("LinkedList: ");
+        while (current != null) {
+            System.out.print(current.data + " ");
+            current = current.next;
         }
         System.out.println();
     }
-
     public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
+        Scanner scanner = new Scanner(System.in);
         Node head = null, tail = null;
-        System.out.print("Enter number of elements: ");
-        int n = sc.nextInt();
-        System.out.println("Enter elements:");
+        int n = scanner.nextInt();
         for (int i = 0; i < n; i++) {
-            int val = sc.nextInt();
-            Node newNode = new Node(val);
+            Node newNode = new Node(scanner.nextInt());
             if (head == null) {
                 head = tail = newNode;
             } else {
@@ -80,12 +67,18 @@ public class RightRotateLinkedList {
                 tail = newNode;
             }
         }
-        System.out.print("Enter k (positions to rotate): ");
-        int k = sc.nextInt();
-        head = rotateRight(head, k);
-        System.out.println("Linked list after right rotation:");
+        int k = scanner.nextInt();
+        head = rotate(head, k);
         display(head);
-        sc.close();
+        scanner.close();
+    }
+}
+class Node {
+    int data;
+    Node next;
+    Node(int data) {
+        this.data = data;
+        this.next = null;
     }
 }
 ```
