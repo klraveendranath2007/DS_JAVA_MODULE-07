@@ -1,5 +1,5 @@
 # Ex8 Detection of Cycle and Finding the Starting Node in a Linked List
-## DATE:
+## DATE:11-09-2025
 ## AIM:
 To write a program that detects a cycle in a linked list and returns the node where the cycle begins.
 If there is no cycle, the program should return null without modifying the linked list.
@@ -24,23 +24,32 @@ Developed by: K L RAVEENDRANATH
 RegisterNumber:  212224060212
 */
 
-class Node {
-    int data;
-    Node next;
-    Node(int data) {
-        this.data = data;
-        this.next = null;
-    }
-}
+import java.util.*;
 
-public class DetectCycleLinkedList {
-    static Node detectCycle(Node head) {
-        Node slow = head, fast = head;
+public class Solution {
+
+    static class ListNode {
+        int val;
+        ListNode next;
+
+        ListNode(int x) {
+            val = x;
+            next = null;
+        }
+    }
+
+    public ListNode detectCycle(ListNode head) {
+        if (head == null || head.next == null) return null;
+
+        ListNode slow = head, fast = head;
+
         while (fast != null && fast.next != null) {
             slow = slow.next;
             fast = fast.next.next;
+
             if (slow == fast) {
-                Node entry = head;
+               
+                ListNode entry = head;
                 while (entry != slow) {
                     entry = entry.next;
                     slow = slow.next;
@@ -48,29 +57,66 @@ public class DetectCycleLinkedList {
                 return entry;
             }
         }
+
         return null;
     }
 
     public static void main(String[] args) {
-        Node head = new Node(1);
-        head.next = new Node(2);
-        head.next.next = new Node(3);
-        head.next.next.next = new Node(4);
-        head.next.next.next.next = new Node(5);
+        Scanner sc = new Scanner(System.in);
+        Solution sol = new Solution();
 
-        head.next.next.next.next.next = head.next.next; // Create cycle
+        String headInput = sc.nextLine().trim().replaceAll("\\[|\\]", "");
+        
+        int pos = sc.nextInt();
 
-        Node cycleStart = detectCycle(head);
-        if (cycleStart != null)
-            System.out.println("Cycle detected at node with value: " + cycleStart.data);
-        else
-            System.out.println("No cycle detected.");
+        if (headInput.isEmpty()) {
+            System.out.println("no cylce");
+            return;
+        }
+
+        String[] parts = headInput.split(",");
+        int[] values = Arrays.stream(parts).mapToInt(Integer::parseInt).toArray();
+
+        ListNode head = new ListNode(values[0]);
+        ListNode current = head;
+        List<ListNode> nodeList = new ArrayList<>();
+        nodeList.add(head);
+
+        for (int i = 1; i < values.length; i++) {
+            ListNode newNode = new ListNode(values[i]);
+            current.next = newNode;
+            current = newNode;
+            nodeList.add(newNode);
+        }
+
+      
+        if (pos >= 0 && pos < nodeList.size()) {
+            current.next = nodeList.get(pos);
+        }
+
+
+        ListNode cycleStart = sol.detectCycle(head);
+
+        if (cycleStart != null) {
+            int index = 0;
+            for (ListNode node : nodeList) {
+                if (node == cycleStart) {
+                    System.out.println("tail connects to node index " + index);
+                    return;
+                }
+                index++;
+            }
+        } else {
+            System.out.println("no cycle");
+        }
     }
 }
+
 ```
 
 ## Output:
-<img width="549" height="128" alt="image" src="https://github.com/user-attachments/assets/ce071e9e-15df-4be6-8454-bf9df0c3115d" />
+<img width="914" height="212" alt="image" src="https://github.com/user-attachments/assets/15efe02b-51a1-42de-880c-cefbf942f424" />
+
 
 ## Result:
 The program successfully detects whether a cycle exists in the linked list.
