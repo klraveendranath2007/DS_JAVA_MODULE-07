@@ -1,5 +1,5 @@
 # Ex6 Right Rotation LinkedList
-## DATE:
+## DATE:04-09-2025
 ## AIM:
 To write a Java  program to:  
 * Create a singly linked list.  
@@ -91,7 +91,7 @@ public class RightRotateLinkedList {
 ```
 
 ## Output:
-<img width="506" height="258" alt="image" src="https://github.com/user-attachments/assets/e37b67a3-b4e3-43fc-b4e4-fbb6a7814688" />
+<img width="892" height="163" alt="image" src="https://github.com/user-attachments/assets/80640050-b78c-4777-bc1d-1a1638cc3d22" />
 
 
 ## Result:
